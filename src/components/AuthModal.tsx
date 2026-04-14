@@ -142,32 +142,39 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
 
     setIsLoading(true);
     try {
-      console.log("Starting final registration...");
-      const result = await createUserWithEmailAndPassword(auth, authData.email, authData.password);
-      console.log("Account created:", result.user.uid);
+      let currentUser = auth.currentUser;
       
-      await updateProfile(result.user, {
+      // If no user is logged in, we need to create the account (Email/Password flow)
+      if (!currentUser) {
+        console.log("Creating new email account...");
+        const result = await createUserWithEmailAndPassword(auth, authData.email, authData.password);
+        currentUser = result.user;
+      }
+      
+      console.log("Updating profile for UID:", currentUser.uid);
+      
+      await updateProfile(currentUser, {
         displayName: profileData.fullname,
         photoURL: profileData.photoURL
       });
-      console.log("Auth profile updated");
 
       const profileToSave = {
         fullname: profileData.fullname,
         yearOfStudy: profileData.yearOfStudy,
         studentId: profileData.studentId,
         photoURL: profileData.photoURL || "",
-        uid: result.user.uid,
-        email: result.user.email || "",
+        uid: currentUser.uid,
+        email: currentUser.email || "",
         role: "student",
         createdAt: serverTimestamp(),
+        followersCount: 0,
+        followingCount: 0,
+        streakCount: 0
       };
 
-      console.log("Saving Firestore profile:", profileToSave);
-      await setDoc(doc(db, "users", result.user.uid), profileToSave);
-      console.log("Firestore profile saved");
-      
+      await setDoc(doc(db, "users", currentUser.uid), profileToSave);
       onSuccess(profileToSave);
+      toast.success("Welcome to Ulikula?!");
     } catch (error: any) {
       console.error("Registration error:", error);
       toast.error(error.message || "Registration failed");

@@ -218,7 +218,7 @@ export default function App() {
     if (!user) return;
     try {
       await setDoc(doc(db, "users", user.uid), data, { merge: true });
-      setProfile(data);
+      setProfile((prev: any) => ({ ...prev, ...data }));
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
       throw error;
@@ -373,7 +373,7 @@ export default function App() {
       await batch.commit();
       toast.success(isFollowing ? "Unfollowed" : "Following");
     } catch (error) {
-      console.error("Follow error:", error);
+      handleFirestoreError(error, OperationType.WRITE, "follows");
       toast.error("Action failed");
     }
   };
@@ -414,7 +414,7 @@ export default function App() {
       await batch.commit();
       toast.success("Streak partnership started! Post meals together to grow your streak.");
     } catch (error) {
-      console.error("Streak error:", error);
+      handleFirestoreError(error, OperationType.WRITE, "streaks");
       toast.error("Failed to start streak");
     }
   };
@@ -426,30 +426,39 @@ export default function App() {
       const collectionsToClear = ["posts", "likes", "comments", "follows", "streaks"];
       for (const coll of collectionsToClear) {
         const snapshot = await getDocs(collection(db, coll));
-        const batch = writeBatch(db);
-        snapshot.docs.forEach(doc => batch.delete(doc.ref));
-        await batch.commit();
+        // Process in chunks of 500 (Firestore batch limit)
+        const docs = snapshot.docs;
+        for (let i = 0; i < docs.length; i += 500) {
+          const batch = writeBatch(db);
+          const chunk = docs.slice(i, i + 500);
+          chunk.forEach(doc => batch.delete(doc.ref));
+          await batch.commit();
+        }
       }
 
       const usersSnapshot = await getDocs(collection(db, "users"));
-      const userBatch = writeBatch(db);
-      usersSnapshot.docs.forEach(doc => {
-        if (doc.id !== user.uid) {
-          userBatch.delete(doc.ref);
-        } else {
-          userBatch.update(doc.ref, {
-            followersCount: 0,
-            followingCount: 0,
-            streakCount: 0
-          });
-        }
-      });
-      await userBatch.commit();
+      const userDocs = usersSnapshot.docs;
+      for (let i = 0; i < userDocs.length; i += 500) {
+        const userBatch = writeBatch(db);
+        const chunk = userDocs.slice(i, i + 500);
+        chunk.forEach(doc => {
+          if (doc.id !== user.uid) {
+            userBatch.delete(doc.ref);
+          } else {
+            userBatch.update(doc.ref, {
+              followersCount: 0,
+              followingCount: 0,
+              streakCount: 0
+            });
+          }
+        });
+        await userBatch.commit();
+      }
 
       toast.success("App data has been reset! Starting fresh.");
       setView('feed');
     } catch (error) {
-      console.error("Reset error:", error);
+      handleFirestoreError(error, OperationType.WRITE, "reset-app");
       toast.error("Failed to reset app data.");
     }
   };
@@ -623,16 +632,28 @@ export default function App() {
       </main>
 
       <BottomNav 
-        activeTab={view === 'profile' ? 'profile' : filter === 'my-posts' ? 'likes' : 'feed'}
+        activeTab={view === 'profile' ? 'profile' : filter === 'my-posts' ? 'likes' : searchQuery ? 'search' : 'feed'}
         onTabChange={(tab) => {
           if (tab === 'profile') setView('profile');
           else if (tab === 'feed') {
             setFilter('recent');
+            setSearchQuery("");
             setView('feed');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
           else if (tab === 'likes') {
             setFilter('my-posts');
+            setSearchQuery("");
             setView('feed');
+          }
+          else if (tab === 'search') {
+            setView('feed');
+            // Focus search input if possible, or just scroll to it
+            const searchInput = document.querySelector('input[placeholder*="Search"]');
+            if (searchInput) {
+              (searchInput as HTMLInputElement).focus();
+              searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
           }
         }}
         onAddClick={() => user ? setIsCreateModalOpen(true) : handleLogin()}

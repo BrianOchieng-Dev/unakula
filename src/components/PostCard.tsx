@@ -175,7 +175,7 @@ export function PostCard({ post, user, profile, isLiked, isFollowing, isStreakPa
         <div className="text-sm space-y-1">
           <p className="text-white leading-relaxed">
             <span className="font-bold mr-2">{post.authorName}</span>
-            <span className="font-medium text-blue-400">#{post.mealCombo.replace(/\s+/g, '')}</span> {post.description}
+            <span className="font-medium text-blue-400">#{post.mealCombo.replace(/[^a-zA-Z0-9]/g, '')}</span> {post.description || ""}
           </p>
         </div>
 
