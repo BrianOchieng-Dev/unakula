@@ -99,6 +99,7 @@ service cloud.firestore {
              data.createdAt is timestamp &&
              (!('description' in data) || (data.description is string && data.description.size() <= 1000)) &&
              (!('imageURL' in data) || isValidUrl(data.imageURL)) &&
+             (!('videoURL' in data) || isValidUrl(data.videoURL)) &&
              (!('authorPhoto' in data) || isValidUrl(data.authorPhoto)) &&
              (!('likesCount' in data) || (data.likesCount is number && data.likesCount >= 0));
     }

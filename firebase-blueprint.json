@@ -51,6 +51,7 @@
         "price": { "type": "number", "description": "Price of the meal" },
         "description": { "type": "string", "description": "Optional extra details" },
         "imageURL": { "type": "string", "format": "uri", "description": "AI generated image URL" },
+        "videoURL": { "type": "string", "format": "uri", "description": "AI generated video URL" },
         "authorId": { "type": "string", "description": "UID of the student who posted" },
         "authorName": { "type": "string", "description": "Name of the author" },
         "authorPhoto": { "type": "string", "description": "Photo of the author" },

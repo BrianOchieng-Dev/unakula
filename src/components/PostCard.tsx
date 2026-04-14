@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
-import { MapPin, DollarSign, Share2, Clock, User, Heart, MessageCircle, Sparkles } from "lucide-react";
+import { MapPin, DollarSign, Share2, Clock, User, Heart, MessageCircle, Sparkles, Trash2, Video, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GlassCard } from "./GlassCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -10,19 +10,7 @@ import { CommentSection } from "./CommentSection";
 import { motion, AnimatePresence } from "motion/react";
 
 interface PostCardProps {
-  post: {
-    id: string;
-    mealCombo: string;
-    location: string;
-    price: number;
-    description?: string;
-    imageURL?: string;
-    authorName: string;
-    authorPhoto?: string;
-    authorId: string;
-    createdAt: any;
-    likesCount?: number;
-  };
+  post: any;
   user: any;
   profile: any;
   isLiked: boolean;
@@ -32,11 +20,29 @@ interface PostCardProps {
   onFollow: () => void;
   onStreak: () => void;
   onShare: (post: any) => void;
+  onDelete?: (postId: string) => void;
+  onGenerateVideo?: (postId: string, mealCombo: string) => Promise<void>;
+  isAdmin?: boolean;
 }
 
-export function PostCard({ post, user, profile, isLiked, isFollowing, isStreakPartner, onLike, onFollow, onStreak, onShare }: PostCardProps) {
+export function PostCard({ 
+  post, 
+  user, 
+  profile, 
+  isLiked, 
+  isFollowing, 
+  isStreakPartner, 
+  onLike, 
+  onFollow, 
+  onStreak, 
+  onShare,
+  onDelete,
+  onGenerateVideo,
+  isAdmin
+}: PostCardProps) {
   const [showComments, setShowComments] = useState(false);
   const [showHeartOverlay, setShowHeartOverlay] = useState(false);
+  const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
   
   const timeAgo = post.createdAt?.toDate 
     ? formatDistanceToNow(post.createdAt.toDate(), { addSuffix: true })
@@ -98,23 +104,61 @@ export function PostCard({ post, user, profile, isLiked, isFollowing, isStreakPa
             </div>
           )}
         </div>
-        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-200/50">
-          <Share2 className="w-4 h-4" onClick={() => onShare(post)} />
-        </Button>
+        <div className="flex items-center gap-1">
+          {onGenerateVideo && !post.videoURL && (user?.uid === post.authorId || isAdmin) && (
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-8 w-8 text-blue-400 hover:text-blue-300 hover:bg-blue-400/10"
+              onClick={() => {
+                setIsGeneratingVideo(true);
+                onGenerateVideo(post.id, post.mealCombo).finally(() => setIsGeneratingVideo(false));
+              }}
+              disabled={isGeneratingVideo}
+            >
+              {isGeneratingVideo ? <Loader2 className="w-4 h-4 animate-spin" /> : <Video className="w-4 h-4" />}
+            </Button>
+          )}
+          {onDelete && (user?.uid === post.authorId || isAdmin) && (
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-8 w-8 text-red-400 hover:text-red-300 hover:bg-red-400/10"
+              onClick={() => onDelete(post.id)}
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          )}
+          <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-200/50" onClick={() => onShare(post)}>
+            <Share2 className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
-      {/* Post Image */}
-      {post.imageURL && (
+      {/* Post Image/Video */}
+      {(post.imageURL || post.videoURL) && (
         <div 
           className="relative aspect-square overflow-hidden bg-slate-900 cursor-pointer"
           onDoubleClick={handleDoubleTap}
         >
-          <img
-            src={post.imageURL}
-            alt={post.mealCombo}
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
+          {post.videoURL ? (
+            <video 
+              src={post.videoURL} 
+              controls 
+              className="w-full h-full object-cover"
+              poster={post.imageURL}
+              loop
+              muted
+              autoPlay
+            />
+          ) : (
+            <img
+              src={post.imageURL}
+              alt={post.mealCombo}
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          )}
           
           <AnimatePresence>
             {showHeartOverlay && (

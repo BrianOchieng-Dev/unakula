@@ -403,12 +403,23 @@ export function ProfilePage({ profile, onUpdate, onDeleteAccount, onResetApp, on
                 whileHover={{ scale: 0.98 }}
                 className="relative aspect-square bg-slate-900 rounded-sm overflow-hidden group cursor-pointer"
               >
-                <img 
-                  src={post.imageURL} 
-                  alt={post.mealCombo}
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
+                {post.videoURL ? (
+                  <video 
+                    src={post.videoURL} 
+                    className="w-full h-full object-cover" 
+                    muted 
+                    loop 
+                    onMouseEnter={(e) => e.currentTarget.play()}
+                    onMouseLeave={(e) => e.currentTarget.pause()}
+                  />
+                ) : (
+                  <img 
+                    src={post.imageURL} 
+                    alt={post.mealCombo}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                )}
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4 text-white">
                   <div className="flex items-center gap-1">
                     <Heart className="w-4 h-4 fill-current" />

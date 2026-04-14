@@ -25,7 +25,8 @@ import {
   onAuthStateChanged,
   handleFirestoreError,
   OperationType,
-  deleteUser
+  deleteUser,
+  deleteDoc
 } from "@/lib/firebase";
 import { Navbar } from "./components/Navbar";
 import { AuthModal } from "./components/AuthModal";
@@ -35,7 +36,7 @@ import { ChatBot } from "./components/ChatBot";
 import { ProfilePage } from "./components/ProfilePage";
 import { Stories } from "./components/Stories";
 import { BottomNav } from "./components/BottomNav";
-import { generateMealImage, chatWithAssistant } from "./services/gemini";
+import { generateMealImage, chatWithAssistant, generateMealVideo } from "./services/gemini";
 import { Toaster, toast } from "sonner";
 import { compressImage } from "@/lib/utils";
 import { Plus, Filter, Sparkles, Search, X } from "lucide-react";
@@ -463,6 +464,35 @@ export default function App() {
     }
   };
 
+  const handleDeletePost = async (postId: string) => {
+    if (!user) return;
+    
+    if (!window.confirm("Are you sure you want to delete this meal combo?")) return;
+
+    try {
+      await deleteDoc(doc(db, "posts", postId));
+      toast.success("Post deleted successfully!");
+    } catch (error) {
+      handleFirestoreError(error, OperationType.DELETE, `posts/${postId}`);
+      toast.error("Failed to delete post.");
+    }
+  };
+
+  const handleGenerateVideo = async (postId: string, mealCombo: string) => {
+    try {
+      const videoURL = await generateMealVideo(mealCombo);
+      await setDoc(doc(db, "posts", postId), { videoURL }, { merge: true });
+      toast.success("AI Video generated successfully!");
+    } catch (error: any) {
+      if (error.message === "INAPPROPRIATE_CONTENT") {
+        toast.error("Content restricted: Please keep it food-related.");
+      } else {
+        toast.error("Failed to generate video. Please try again later.");
+      }
+      throw error;
+    }
+  };
+
   const filteredPosts = useMemo(() => {
     let result = [...posts];
     if (searchQuery) {
@@ -600,6 +630,9 @@ export default function App() {
                         onFollow={() => handleFollow(post.authorId)}
                         onStreak={() => handleBecomeStreakPartner(post.authorId)}
                         onShare={handleShare} 
+                        onDelete={handleDeletePost}
+                        onGenerateVideo={handleGenerateVideo}
+                        isAdmin={user?.email === "bochieng228@gmail.com"}
                       />
                     </motion.div>
                   ))}
