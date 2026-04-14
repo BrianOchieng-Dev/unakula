@@ -1,0 +1,115 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A student user of the Ulikula? app.",
+      "type": "object",
+      "properties": {
+        "fullname": { "type": "string", "description": "Full name of the student" },
+        "email": { "type": "string", "format": "email", "description": "Student email" },
+        "yearOfStudy": { "type": "string", "description": "Current year of study" },
+        "studentId": { "type": "string", "description": "MMUST Student ID" },
+        "photoURL": { "type": "string", "format": "uri", "description": "Profile picture URL" },
+        "role": { "type": "string", "enum": ["student", "admin"], "description": "User role" },
+        "followersCount": { "type": "number", "description": "Number of followers" },
+        "followingCount": { "type": "number", "description": "Number of users followed" },
+        "streakCount": { "type": "number", "description": "Total active streaks" }
+      },
+      "required": ["fullname", "email", "yearOfStudy", "studentId"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "A follow relationship between two users.",
+      "type": "object",
+      "properties": {
+        "followerId": { "type": "string", "description": "UID of the user who is following" },
+        "followingId": { "type": "string", "description": "UID of the user being followed" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["followerId", "followingId", "createdAt"]
+    },
+    "Streak": {
+      "title": "Streak",
+      "description": "A meal streak between two partners.",
+      "type": "object",
+      "properties": {
+        "partnerIds": { "type": "array", "items": { "type": "string" }, "description": "UIDs of the two partners" },
+        "count": { "type": "number", "description": "Current streak count" },
+        "lastActivity": { "type": "string", "format": "date-time", "description": "Last time both partners posted" },
+        "status": { "type": "string", "enum": ["active", "broken"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["partnerIds", "count", "lastActivity", "status", "createdAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "A meal combo post shared by a student.",
+      "type": "object",
+      "properties": {
+        "mealCombo": { "type": "string", "description": "Description of the meal combo" },
+        "location": { "type": "string", "description": "Where the meal was bought or eaten" },
+        "price": { "type": "number", "description": "Price of the meal" },
+        "description": { "type": "string", "description": "Optional extra details" },
+        "imageURL": { "type": "string", "format": "uri", "description": "AI generated image URL" },
+        "authorId": { "type": "string", "description": "UID of the student who posted" },
+        "authorName": { "type": "string", "description": "Name of the author" },
+        "authorPhoto": { "type": "string", "description": "Photo of the author" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp of the post" },
+        "likesCount": { "type": "number", "description": "Number of likes" }
+      },
+      "required": ["mealCombo", "location", "price", "authorId", "createdAt"]
+    },
+    "Like": {
+      "title": "Like",
+      "description": "A like on a post by a user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "postId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "postId", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "A comment on a meal post.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "postId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorPhoto": { "type": "string" },
+        "text": { "type": "string" },
+        "sticker": { "type": "string", "description": "Optional sticker URL or emoji" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "postId", "authorName", "text", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Meal combo posts"
+    },
+    "/likes/{likeId}": {
+      "schema": "Like",
+      "description": "Likes on posts"
+    },
+    "/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments on posts"
+    },
+    "/follows/{followId}": {
+      "schema": "Follow",
+      "description": "Follow relationships"
+    },
+    "/streaks/{streakId}": {
+      "schema": "Streak",
+      "description": "Partner meal streaks"
+    }
+  }
+}
