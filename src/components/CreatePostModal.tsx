@@ -89,7 +89,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-slate-950 border-white/10 text-white max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[500px] bg-popover border-border text-popover-foreground max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
             {editPost ? "Update Your Meal" : "Share Your Meal"}
@@ -103,7 +103,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
               <Input
                 id="mealCombo"
                 placeholder="e.g. Ugali, Sukuma & Beef"
-                className="pl-10 bg-white/5 border-white/10 focus:border-blue-500 text-white placeholder:text-blue-100/30"
+                className="pl-10 bg-muted border-border focus:border-blue-500 text-foreground placeholder:text-muted-foreground/50"
                 value={formData.mealCombo}
                 onChange={(e) => setFormData({ ...formData, mealCombo: e.target.value })}
                 required
@@ -119,7 +119,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
                 <Input
                   id="location"
                   placeholder="e.g. Mess, Kibandaski"
-                  className="pl-10 bg-white/5 border-white/10 focus:border-blue-500 text-white placeholder:text-blue-100/30"
+                  className="pl-10 bg-muted border-border focus:border-blue-500 text-foreground placeholder:text-muted-foreground/50"
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                   required
@@ -134,7 +134,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
                   id="price"
                   type="number"
                   placeholder="150"
-                  className="pl-10 bg-white/5 border-white/10 focus:border-blue-500 text-white placeholder:text-blue-100/30"
+                  className="pl-10 bg-muted border-border focus:border-blue-500 text-foreground placeholder:text-muted-foreground/50"
                   value={formData.price}
                   onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                   required
@@ -151,7 +151,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
                   key={type}
                   type="button"
                   variant={formData.mealType === type ? "default" : "outline"}
-                  className={`flex-1 text-xs capitalize ${formData.mealType === type ? 'bg-blue-600' : 'bg-white/5 border-white/10'}`}
+                  className={`flex-1 text-xs capitalize ${formData.mealType === type ? 'bg-blue-600' : 'bg-muted border-border'}`}
                   onClick={() => setFormData({ ...formData, mealType: type })}
                 >
                   {type}
@@ -168,7 +168,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
                   key={restriction}
                   type="button"
                   variant="outline"
-                  className={`text-xs h-8 px-3 rounded-full border-white/10 ${formData.dietaryRestrictions.includes(restriction) ? 'bg-blue-600 border-blue-600' : 'bg-white/5'}`}
+                  className={`text-xs h-8 px-3 rounded-full border-border ${formData.dietaryRestrictions.includes(restriction) ? 'bg-blue-600 border-blue-600 text-white' : 'bg-muted'}`}
                   onClick={() => toggleDietary(restriction)}
                 >
                   {formData.dietaryRestrictions.includes(restriction) && <Check className="w-3 h-3 mr-1" />}
@@ -186,7 +186,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
                   <Smile className="w-5 h-5" />
                 </PopoverTrigger>
                 <PopoverContent className="p-0 border-none bg-transparent" side="top" align="end">
-                  <EmojiPicker theme={Theme.DARK} onEmojiClick={onEmojiClick} />
+                  <EmojiPicker theme={document.documentElement.classList.contains('dark') ? Theme.DARK : Theme.LIGHT} onEmojiClick={onEmojiClick} />
                 </PopoverContent>
               </Popover>
             </div>
@@ -195,7 +195,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
               <Textarea
                 id="description"
                 placeholder="Tell us more about the taste... use @ to mention friends"
-                className="pl-10 bg-white/5 border-white/10 focus:border-blue-500 min-h-[100px] text-white placeholder:text-blue-100/30"
+                className="pl-10 bg-muted border-border focus:border-blue-500 min-h-[100px] text-foreground placeholder:text-muted-foreground/50"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               />
@@ -205,7 +205,7 @@ export function CreatePostModal({ isOpen, onClose, onSubmit, isGeneratingImage, 
           {!editPost && (
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 flex items-start gap-3">
               <Sparkles className="w-5 h-5 text-blue-400 shrink-0 mt-1" />
-              <p className="text-xs text-blue-100/70">
+              <p className="text-xs text-foreground/70">
                 Ulikula? AI will automatically generate a delicious image for your meal combo!
               </p>
             </div>

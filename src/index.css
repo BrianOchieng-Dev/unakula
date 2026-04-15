@@ -29,6 +29,29 @@
 
 @layer base {
   :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
@@ -48,25 +71,30 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
-    --radius: 0.75rem;
   }
 }
 
 body {
-  @apply bg-[#020617] text-slate-50 min-h-screen selection:bg-blue-500/30;
+  @apply bg-background text-foreground min-h-screen selection:bg-blue-500/30 transition-colors duration-300;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(29, 78, 216, 0.03) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+.dark body {
   background-image: 
     radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(29, 78, 216, 0.1) 0px, transparent 50%),
     linear-gradient(to bottom, #020617, #0f172a);
-  background-attachment: fixed;
 }
 
 .glass {
-  @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl;
+  @apply bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-xl;
 }
 
 .glass-dark {
-  @apply bg-black/40 backdrop-blur-2xl border border-white/5 shadow-2xl;
+  @apply bg-white/80 dark:bg-black/40 backdrop-blur-2xl border border-black/10 dark:border-white/5 shadow-2xl;
 }
 
 .insta-gradient {

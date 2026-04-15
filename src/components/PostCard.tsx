@@ -74,12 +74,12 @@ export function PostCard({
   };
 
   return (
-    <GlassCard className="overflow-hidden border-white/5" whileHover={{ y: -2 }}>
+    <GlassCard className="overflow-hidden border-border/5" whileHover={{ y: -2 }}>
       {/* Post Header */}
       <div className="p-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="p-[1.5px] rounded-full bg-gradient-to-tr from-blue-600 to-blue-400">
-            <div className="p-[1px] bg-slate-950 rounded-full">
+            <div className="p-[1px] bg-background dark:bg-slate-950 rounded-full">
               <Avatar className="h-8 w-8 border-none">
                 {post.authorPhoto ? (
                   <AvatarImage src={post.authorPhoto} className="object-cover" />
@@ -91,8 +91,8 @@ export function PostCard({
             </div>
           </div>
           <div>
-            <p className="text-xs font-bold text-white leading-none">{post.authorName}</p>
-            <p className="text-[10px] text-blue-200/50 mt-0.5">{post.location}</p>
+            <p className="text-xs font-bold text-foreground leading-none">{post.authorName}</p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">{post.location}</p>
           </div>
           {user && user.uid !== post.authorId && (
             <Button 
@@ -158,7 +158,7 @@ export function PostCard({
               <Trash2 className="w-4 h-4" />
             </Button>
           )}
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-200/50" onClick={() => onShare(post)}>
+          <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground" onClick={() => onShare(post)}>
             <Share2 className="w-4 h-4" />
           </Button>
         </div>
@@ -167,7 +167,7 @@ export function PostCard({
       {/* Post Image/Video */}
       {(post.imageURL || post.videoURL) && (
         <div 
-          className="relative aspect-square overflow-hidden bg-slate-900 cursor-pointer"
+          className="relative aspect-square overflow-hidden bg-muted cursor-pointer"
           onDoubleClick={handleDoubleTap}
         >
           {post.videoURL ? (
@@ -233,40 +233,40 @@ export function PostCard({
               onClick={onLike}
               className={cn(
                 "transition-transform active:scale-125",
-                isLiked ? "text-red-500" : "text-white hover:text-blue-400"
+                isLiked ? "text-red-500" : "text-foreground hover:text-blue-400"
               )}
             >
               <Heart className={cn("w-6 h-6", isLiked && "fill-current")} />
             </button>
             <button 
               onClick={() => setShowComments(!showComments)}
-              className="text-white hover:text-blue-400 transition-colors"
+              className="text-foreground hover:text-blue-400 transition-colors"
             >
               <MessageCircle className="w-6 h-6" />
             </button>
             <button 
               onClick={() => onShare(post)}
-              className="text-white hover:text-blue-400 transition-colors"
+              className="text-foreground hover:text-blue-400 transition-colors"
             >
               <Share2 className="w-6 h-6" />
             </button>
           </div>
-          <div className="text-[10px] text-blue-200/40 font-medium uppercase tracking-wider">
+          <div className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
             {timeAgo}
           </div>
         </div>
 
         {/* Likes Count */}
-        <div className="text-xs font-bold text-white">
+        <div className="text-xs font-bold text-foreground">
           {post.likesCount || 0} likes
         </div>
 
         {/* Caption */}
         <div className="text-sm space-y-1">
-          <div className="text-white leading-relaxed">
+          <div className="text-foreground leading-relaxed">
             <span className="font-bold mr-2">{post.authorName}</span>
             <span className="font-medium text-blue-400">#{post.mealCombo.replace(/[^a-zA-Z0-9]/g, '')}</span>
-            <div className="mt-1 text-blue-100/80">
+            <div className="mt-1 text-foreground/80">
               {renderTextWithMentions(post.description)}
             </div>
           </div>
@@ -275,7 +275,7 @@ export function PostCard({
         {/* Comments Link */}
         <button 
           onClick={() => setShowComments(!showComments)}
-          className="text-xs text-blue-200/50 hover:text-blue-200 transition-colors"
+          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
         >
           {showComments ? "Hide all comments" : `View all comments`}
         </button>

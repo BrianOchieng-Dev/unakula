@@ -40,7 +40,7 @@ export function CreateStoryModal({ isOpen, onClose, onSubmit, isGenerating }: Cr
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] bg-slate-950 border-white/10 text-white">
+      <DialogContent className="sm:max-w-[425px] bg-popover border-border text-popover-foreground">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-center bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
             Share a Story
@@ -61,7 +61,7 @@ export function CreateStoryModal({ isOpen, onClose, onSubmit, isGenerating }: Cr
                   "flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all",
                   formData.mediaType === type.id 
                     ? "bg-blue-600/20 border-blue-500 text-blue-400" 
-                    : "bg-white/5 border-white/10 text-blue-100/40 hover:bg-white/10"
+                    : "bg-muted border-border text-muted-foreground/40 hover:bg-accent"
                 )}
               >
                 <type.icon className="w-6 h-6" />
@@ -80,14 +80,14 @@ export function CreateStoryModal({ isOpen, onClose, onSubmit, isGenerating }: Cr
                   <Smile className="w-5 h-5" />
                 </PopoverTrigger>
                 <PopoverContent className="p-0 border-none bg-transparent" side="top" align="end">
-                  <EmojiPicker theme={Theme.DARK} onEmojiClick={onEmojiClick} />
+                  <EmojiPicker theme={document.documentElement.classList.contains('dark') ? Theme.DARK : Theme.LIGHT} onEmojiClick={onEmojiClick} />
                 </PopoverContent>
               </Popover>
             </div>
             <Textarea
               id="content"
               placeholder={formData.mediaType === 'text' ? "Type your story here..." : "Describe your story..."}
-              className="bg-white/5 border-white/10 focus:border-blue-500 min-h-[120px] text-white placeholder:text-blue-100/30 rounded-xl"
+              className="bg-muted border-border focus:border-blue-500 min-h-[120px] text-foreground placeholder:text-muted-foreground/30 rounded-xl"
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               required
@@ -96,7 +96,7 @@ export function CreateStoryModal({ isOpen, onClose, onSubmit, isGenerating }: Cr
 
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 flex items-start gap-3">
             <Sparkles className="w-5 h-5 text-blue-400 shrink-0 mt-1" />
-            <p className="text-xs text-blue-100/70">
+            <p className="text-xs text-foreground/70">
               {formData.mediaType === 'text' 
                 ? "Your story will be shared with your followers for 24 hours." 
                 : `AI will generate a beautiful ${formData.mediaType} based on your description!`}

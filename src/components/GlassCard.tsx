@@ -10,7 +10,7 @@ export function GlassCard({ children, className, ...props }: GlassCardProps) {
   return (
     <motion.div
       className={cn(
-        "bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl",
+        "glass rounded-2xl",
         className
       )}
       {...props}

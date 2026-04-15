@@ -67,21 +67,21 @@ export function ChatBot({ onSendMessage }: ChatBotProps) {
             className="mb-4 w-[350px] sm:w-[400px]"
           >
             <GlassCard className="h-[500px] flex flex-col overflow-hidden border-blue-500/30">
-              <div className="p-4 border-b border-white/10 flex items-center justify-between bg-blue-600/20">
+              <div className="p-4 border-b border-border flex items-center justify-between bg-blue-600/20">
                 <div className="flex items-center gap-2">
                   <div className="bg-blue-600 p-1.5 rounded-lg">
                     <Bot className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-white">Food Assistant</h3>
-                    <p className="text-[10px] text-blue-200">Online & Ready to help</p>
+                    <h3 className="text-sm font-bold text-foreground">Food Assistant</h3>
+                    <p className="text-[10px] text-blue-500">Online & Ready to help</p>
                   </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsOpen(false)}
-                  className="rounded-full text-white hover:bg-white/10"
+                  className="rounded-full text-foreground hover:bg-accent"
                 >
                   <X className="w-4 h-4" />
                 </Button>
@@ -96,16 +96,16 @@ export function ChatBot({ onSendMessage }: ChatBotProps) {
                     >
                       <div className={`flex gap-2 max-w-[80%] ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}>
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                          msg.role === "user" ? "bg-blue-600" : "bg-white/10"
+                          msg.role === "user" ? "bg-blue-600" : "bg-muted"
                         }`}>
                           {msg.role === "user" ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-blue-400" />}
                         </div>
                         <div className={`p-3 rounded-2xl text-sm ${
                           msg.role === "user" 
                             ? "bg-blue-600 text-white rounded-tr-none" 
-                            : "bg-white/5 text-blue-50 rounded-tl-none border border-white/10"
+                            : "bg-muted text-foreground rounded-tl-none border border-border"
                         }`}>
-                          <div className="prose prose-invert prose-sm max-w-none">
+                          <div className="prose dark:prose-invert prose-sm max-w-none">
                             <ReactMarkdown>
                               {msg.content}
                             </ReactMarkdown>
@@ -116,23 +116,23 @@ export function ChatBot({ onSendMessage }: ChatBotProps) {
                   ))}
                   {isLoading && (
                     <div className="flex justify-start">
-                      <div className="flex gap-2 items-center bg-white/5 p-3 rounded-2xl border border-white/10">
+                      <div className="flex gap-2 items-center bg-muted p-3 rounded-2xl border border-border">
                         <Loader2 className="w-4 h-4 text-blue-400 animate-spin" />
-                        <span className="text-xs text-blue-200">Thinking...</span>
+                        <span className="text-xs text-muted-foreground">Thinking...</span>
                       </div>
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="p-4 border-t border-white/10 bg-white/5">
+              <div className="p-4 border-t border-border bg-muted/50">
                 <div className="flex gap-2">
                   <Input
                     placeholder="Ask about food..."
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                    className="bg-white/5 border-white/10 text-white focus:border-blue-500"
+                    className="bg-background border-border text-foreground focus:border-blue-500"
                   />
                   <Button
                     onClick={handleSend}

@@ -132,7 +132,7 @@ export function CommentSection({ postId, user, profile }: CommentSectionProps) {
   };
 
   return (
-    <div className="mt-4 pt-4 border-t border-white/10 space-y-4">
+    <div className="mt-4 pt-4 border-t border-border space-y-4">
       <div className="max-h-60 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
         <AnimatePresence initial={false}>
           {comments.map((comment) => (
@@ -143,7 +143,7 @@ export function CommentSection({ postId, user, profile }: CommentSectionProps) {
               exit={{ opacity: 0, x: 10 }}
               className="flex gap-3 group"
             >
-              <Avatar className="h-6 w-6 border border-white/10">
+              <Avatar className="h-6 w-6 border border-border">
                 <AvatarImage src={comment.authorPhoto} />
                 <AvatarFallback className="bg-blue-600 text-[8px] text-white">
                   {comment.authorName.charAt(0)}
@@ -151,12 +151,12 @@ export function CommentSection({ postId, user, profile }: CommentSectionProps) {
               </Avatar>
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-white">{comment.authorName}</span>
-                  <span className="text-[10px] text-blue-200/40">
+                  <span className="text-xs font-bold text-foreground">{comment.authorName}</span>
+                  <span className="text-[10px] text-muted-foreground">
                     {comment.createdAt?.toDate ? formatDistanceToNow(comment.createdAt.toDate(), { addSuffix: true }) : "just now"}
                   </span>
                 </div>
-                <div className="bg-white/5 rounded-lg p-2 text-sm text-blue-100/90 relative">
+                <div className="bg-muted rounded-lg p-2 text-sm text-foreground relative">
                   {comment.sticker && (
                     <div className="text-2xl mb-1">{comment.sticker}</div>
                   )}
@@ -176,7 +176,7 @@ export function CommentSection({ postId, user, profile }: CommentSectionProps) {
           ))}
         </AnimatePresence>
         {comments.length === 0 && (
-          <p className="text-center text-xs text-blue-200/40 py-4 italic">
+          <p className="text-center text-xs text-muted-foreground py-4 italic">
             No comments yet. Be the first to say something!
           </p>
         )}
@@ -189,15 +189,15 @@ export function CommentSection({ postId, user, profile }: CommentSectionProps) {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               placeholder="Add a comment..."
-              className="bg-white/5 border-white/10 text-white rounded-xl pr-10 text-sm h-10"
+              className="bg-muted border-border text-foreground rounded-xl pr-10 text-sm h-10"
               disabled={isSubmitting}
             />
             <Popover open={showEmojiPicker} onOpenChange={setShowEmojiPicker}>
-              <PopoverTrigger className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "absolute right-2 top-1 h-8 w-8 p-0 text-blue-200/60 hover:text-blue-400 transition-colors")}>
+              <PopoverTrigger className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "absolute right-2 top-1 h-8 w-8 p-0 text-muted-foreground hover:text-foreground transition-colors")}>
                 <Smile className="w-5 h-5" />
               </PopoverTrigger>
               <PopoverContent className="p-0 border-none bg-transparent mb-2" side="top" align="end">
-                <EmojiPicker theme={Theme.DARK} onEmojiClick={onEmojiClick} />
+                <EmojiPicker theme={document.documentElement.classList.contains('dark') ? Theme.DARK : Theme.LIGHT} onEmojiClick={onEmojiClick} />
               </PopoverContent>
             </Popover>
           </div>
@@ -217,7 +217,7 @@ export function CommentSection({ postId, user, profile }: CommentSectionProps) {
               key={sticker.label}
               type="button"
               onClick={() => handleSubmit(undefined, sticker.emoji)}
-              className="flex items-center gap-1.5 bg-white/5 hover:bg-white/10 px-2 py-1 rounded-lg text-[10px] text-blue-100 transition-colors border border-white/5"
+              className="flex items-center gap-1.5 bg-muted hover:bg-accent px-2 py-1 rounded-lg text-[10px] text-foreground transition-colors border border-border"
             >
               <span>{sticker.emoji}</span>
               <span>{sticker.label}</span>

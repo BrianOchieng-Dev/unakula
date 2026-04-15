@@ -220,14 +220,14 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[400px] p-0 bg-slate-950/90 backdrop-blur-2xl overflow-hidden border border-white/10 shadow-2xl rounded-3xl text-white">
+      <DialogContent className="sm:max-w-[400px] p-0 bg-popover/90 backdrop-blur-2xl overflow-hidden border border-border shadow-2xl rounded-3xl text-foreground">
         <div className="p-8 space-y-8">
           {/* Instagram-style Logo/Header */}
           <div className="text-center space-y-2">
             <h1 className="text-4xl font-serif italic font-bold bg-gradient-to-tr from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
               Ulikula?
             </h1>
-            <p className="text-sm text-blue-100/50 font-medium">
+            <p className="text-sm text-muted-foreground font-medium">
               {mode === "login" ? "Log in to see what comrades are eating" : 
                mode === "signup" ? "Sign up to share your meal combos" : 
                "Complete your profile"}
@@ -248,7 +248,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
                     <Input
                       type="email"
                       placeholder="Email"
-                      className="bg-white/5 border-white/10 h-11 focus:ring-1 focus:ring-blue-500/50 text-white placeholder:text-blue-100/30"
+                      className="bg-muted border-border h-11 focus:ring-1 focus:ring-blue-500/50 text-foreground placeholder:text-muted-foreground/30"
                       value={authData.email}
                       onChange={(e) => setAuthData({ ...authData, email: e.target.value })}
                       required
@@ -259,7 +259,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
                       <Input
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
-                        className="bg-white/5 border-white/10 h-11 focus:ring-1 focus:ring-blue-500/50 text-white placeholder:text-blue-100/30 pr-10"
+                        className="bg-muted border-border h-11 focus:ring-1 focus:ring-blue-500/50 text-foreground placeholder:text-muted-foreground/30 pr-10"
                         value={authData.password}
                         onChange={(e) => setAuthData({ ...authData, password: e.target.value })}
                         required
@@ -267,7 +267,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-100/30 hover:text-blue-400 transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/30 hover:text-blue-400 transition-colors"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
@@ -281,7 +281,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
                           <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Confirm Password"
-                            className="bg-white/5 border-white/10 h-11 focus:ring-1 focus:ring-blue-500/50 text-white placeholder:text-blue-100/30 pr-10"
+                            className="bg-muted border-border h-11 focus:ring-1 focus:ring-blue-500/50 text-foreground placeholder:text-muted-foreground/30 pr-10"
                             value={authData.confirmPassword}
                             onChange={(e) => setAuthData({ ...authData, confirmPassword: e.target.value })}
                             required
@@ -290,16 +290,16 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
                       </div>
                       
                       <div className="grid grid-cols-2 gap-2 px-1">
-                        <div className={`flex items-center gap-1.5 text-[10px] ${passwordValidation.length ? "text-green-400" : "text-blue-100/30"}`}>
+                        <div className={`flex items-center gap-1.5 text-[10px] ${passwordValidation.length ? "text-green-400" : "text-muted-foreground/30"}`}>
                           <CheckCircle2 className="w-3 h-3" /> 6+ Characters
                         </div>
-                        <div className={`flex items-center gap-1.5 text-[10px] ${passwordValidation.number ? "text-green-400" : "text-blue-100/30"}`}>
+                        <div className={`flex items-center gap-1.5 text-[10px] ${passwordValidation.number ? "text-green-400" : "text-muted-foreground/30"}`}>
                           <CheckCircle2 className="w-3 h-3" /> One Number
                         </div>
-                        <div className={`flex items-center gap-1.5 text-[10px] ${passwordValidation.special ? "text-green-400" : "text-blue-100/30"}`}>
+                        <div className={`flex items-center gap-1.5 text-[10px] ${passwordValidation.special ? "text-green-400" : "text-muted-foreground/30"}`}>
                           <CheckCircle2 className="w-3 h-3" /> Special Char
                         </div>
-                        <div className={`flex items-center gap-1.5 text-[10px] ${passwordValidation.match && authData.confirmPassword ? "text-green-400" : "text-blue-100/30"}`}>
+                        <div className={`flex items-center gap-1.5 text-[10px] ${passwordValidation.match && authData.confirmPassword ? "text-green-400" : "text-muted-foreground/30"}`}>
                           <CheckCircle2 className="w-3 h-3" /> Match
                         </div>
                       </div>
@@ -317,16 +317,16 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
 
                 <div className="relative py-4">
                   <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-white/10"></span>
+                    <span className="w-full border-t border-border"></span>
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-slate-950 px-2 text-blue-100/30 font-bold">OR</span>
+                    <span className="bg-popover px-2 text-muted-foreground/30 font-bold">OR</span>
                   </div>
                 </div>
 
                 <Button
                   variant="ghost"
-                  className="w-full text-blue-400 font-bold flex items-center justify-center gap-2 hover:bg-white/5"
+                  className="w-full text-blue-400 font-bold flex items-center justify-center gap-2 hover:bg-accent"
                   onClick={handleGoogleLogin}
                   disabled={isLoading}
                 >
@@ -350,16 +350,16 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
               >
                 <button 
                   onClick={() => setMode("signup")}
-                  className="flex items-center text-xs text-blue-100/50 hover:text-white transition-colors"
+                  className="flex items-center text-xs text-muted-foreground/50 hover:text-foreground transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" /> Back
                 </button>
 
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative group">
-                    <Avatar className="h-24 w-24 border-2 border-white/10 ring-4 ring-white/5">
+                    <Avatar className="h-24 w-24 border-2 border-border ring-4 ring-muted">
                       <AvatarImage src={profileData.photoURL} />
-                      <AvatarFallback className="bg-white/5 text-blue-100/30">
+                      <AvatarFallback className="bg-muted text-muted-foreground/30">
                         <User className="w-10 h-10" />
                       </AvatarFallback>
                     </Avatar>
@@ -376,7 +376,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
                       size="sm"
                       onClick={handleAiGenerate}
                       disabled={isGenerating}
-                      className="text-[10px] h-7 border-white/10 bg-white/5 text-white"
+                      className="text-[10px] h-7 border-border bg-muted text-foreground"
                     >
                       <Sparkles className="w-3 h-3 mr-1" /> AI Avatar
                     </Button>
@@ -387,14 +387,14 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
                 <form onSubmit={handleFinalRegister} className="space-y-3">
                   <Input
                     placeholder="Full Name"
-                    className="bg-white/5 border-white/10 h-11 text-white placeholder:text-blue-100/30"
+                    className="bg-muted border-border h-11 text-foreground placeholder:text-muted-foreground/30"
                     value={profileData.fullname}
                     onChange={(e) => setProfileData({ ...profileData, fullname: e.target.value })}
                     required
                   />
                   <Input
                     placeholder="Year of Study (e.g. Year 2)"
-                    className="bg-white/5 border-white/10 h-11 text-white placeholder:text-blue-100/30"
+                    className="bg-muted border-border h-11 text-foreground placeholder:text-muted-foreground/30"
                     value={profileData.yearOfStudy}
                     onChange={(e) => setProfileData({ ...profileData, yearOfStudy: e.target.value })}
                     required
@@ -402,7 +402,7 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
                   <div className="relative">
                     <Input
                       placeholder="Student ID (COM/B/01-00147/2023)"
-                      className={`bg-white/5 border-white/10 h-11 pr-10 text-white placeholder:text-blue-100/30 ${profileData.studentId && !isIdValid ? "border-red-500/50" : ""}`}
+                      className={`bg-muted border-border h-11 pr-10 text-foreground placeholder:text-muted-foreground/30 ${profileData.studentId && !isIdValid ? "border-red-500/50" : ""}`}
                       value={profileData.studentId}
                       onChange={(e) => setProfileData({ ...profileData, studentId: e.target.value.toUpperCase() })}
                       required
@@ -427,8 +427,8 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = "login" }:
         </div>
 
         {/* Footer Toggle */}
-        <div className="bg-white/5 p-6 border-t border-white/10 text-center">
-          <p className="text-sm text-blue-100/50">
+        <div className="bg-muted p-6 border-t border-border text-center">
+          <p className="text-sm text-muted-foreground">
             {mode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
             <button
               onClick={() => setMode(mode === "login" ? "signup" : "login")}

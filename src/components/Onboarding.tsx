@@ -46,11 +46,11 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-xl">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/90 backdrop-blur-xl">
       <motion.div 
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="w-full max-w-md bg-slate-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
+        className="w-full max-w-md bg-popover border border-border rounded-3xl overflow-hidden shadow-2xl"
       >
         <div className={`h-32 bg-gradient-to-br ${steps[currentStep].color} flex items-center justify-center relative`}>
           <button 
@@ -71,8 +71,8 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
         <div className="p-8 text-center space-y-6">
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-white">{steps[currentStep].title}</h2>
-            <p className="text-blue-200/60 text-sm leading-relaxed">
+            <h2 className="text-2xl font-bold text-foreground">{steps[currentStep].title}</h2>
+            <p className="text-muted-foreground text-sm leading-relaxed">
               {steps[currentStep].description}
             </p>
           </div>
@@ -81,7 +81,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
             {steps.map((_, i) => (
               <div 
                 key={i}
-                className={`h-1.5 rounded-full transition-all duration-300 ${i === currentStep ? 'w-8 bg-blue-500' : 'w-2 bg-white/10'}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === currentStep ? 'w-8 bg-blue-500' : 'w-2 bg-muted'}`}
               />
             ))}
           </div>

@@ -11,12 +11,12 @@ interface BottomNavProps {
 export function BottomNav({ activeTab, onTabChange, onAddClick, user }: BottomNavProps) {
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 px-4 pb-4">
-      <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl flex items-center justify-around py-3 px-2 shadow-2xl">
+      <div className="bg-background/80 dark:bg-slate-900/80 backdrop-blur-xl border border-border dark:border-white/10 rounded-2xl flex items-center justify-around py-3 px-2 shadow-2xl">
         <button
           onClick={() => onTabChange('feed')}
           className={cn(
             "p-2 rounded-xl transition-colors",
-            activeTab === 'feed' ? "text-blue-400 bg-blue-400/10" : "text-blue-100/50 hover:text-blue-100"
+            activeTab === 'feed' ? "text-blue-400 bg-blue-400/10" : "text-muted-foreground hover:text-foreground"
           )}
         >
           <Home className="w-6 h-6" />
@@ -26,7 +26,7 @@ export function BottomNav({ activeTab, onTabChange, onAddClick, user }: BottomNa
           onClick={() => onTabChange('reels')}
           className={cn(
             "p-2 rounded-xl transition-colors",
-            activeTab === 'reels' ? "text-blue-400 bg-blue-400/10" : "text-blue-100/50 hover:text-blue-100"
+            activeTab === 'reels' ? "text-blue-400 bg-blue-400/10" : "text-muted-foreground hover:text-foreground"
           )}
         >
           <Film className="w-6 h-6" />
@@ -43,7 +43,7 @@ export function BottomNav({ activeTab, onTabChange, onAddClick, user }: BottomNa
           onClick={() => onTabChange('search')}
           className={cn(
             "p-2 rounded-xl transition-colors",
-            activeTab === 'search' ? "text-blue-400 bg-blue-400/10" : "text-blue-100/50 hover:text-blue-100"
+            activeTab === 'search' ? "text-blue-400 bg-blue-400/10" : "text-muted-foreground hover:text-foreground"
           )}
         >
           <Search className="w-6 h-6" />
@@ -53,7 +53,7 @@ export function BottomNav({ activeTab, onTabChange, onAddClick, user }: BottomNa
           onClick={() => onTabChange('profile')}
           className={cn(
             "p-2 rounded-xl transition-colors",
-            activeTab === 'profile' ? "text-blue-400 bg-blue-400/10" : "text-blue-100/50 hover:text-blue-100"
+            activeTab === 'profile' ? "text-blue-400 bg-blue-400/10" : "text-muted-foreground hover:text-foreground"
           )}
         >
           <User className="w-6 h-6" />

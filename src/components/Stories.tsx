@@ -27,18 +27,18 @@ export function Stories({ stories, onAddStory, onViewStory, userProfile }: Stori
         className="flex flex-col items-center gap-1 shrink-0 cursor-pointer group"
         onClick={onAddStory}
       >
-        <div className="relative p-[2px] rounded-full bg-slate-800 group-hover:bg-blue-500 transition-colors">
-          <div className="p-[2px] bg-slate-950 rounded-full">
+        <div className="relative p-[2px] rounded-full bg-muted group-hover:bg-blue-500 transition-colors">
+          <div className="p-[2px] bg-background dark:bg-slate-950 rounded-full">
             <Avatar className="h-16 w-16 border-2 border-transparent">
               {userProfile?.photoURL ? (
                 <AvatarImage src={userProfile.photoURL} className="object-cover opacity-50" />
               ) : null}
-              <AvatarFallback className="bg-slate-900 text-blue-400 font-bold">
+              <AvatarFallback className="bg-muted text-blue-400 font-bold">
                 +
               </AvatarFallback>
             </Avatar>
           </div>
-          <div className="absolute bottom-0 right-0 bg-blue-600 rounded-full p-1 border-2 border-slate-950">
+          <div className="absolute bottom-0 right-0 bg-blue-600 rounded-full p-1 border-2 border-background dark:border-slate-950">
             <motion.div
               animate={{ rotate: [0, 90, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -49,7 +49,7 @@ export function Stories({ stories, onAddStory, onViewStory, userProfile }: Stori
             </motion.div>
           </div>
         </div>
-        <span className="text-[10px] text-blue-100/70 font-bold">Your Story</span>
+        <span className="text-[10px] text-muted-foreground font-bold">Your Story</span>
       </motion.div>
 
       {stories.map((story, i) => (
@@ -67,7 +67,7 @@ export function Stories({ stories, onAddStory, onViewStory, userProfile }: Stori
               ? "bg-gradient-to-tr from-pink-500 via-purple-500 to-yellow-500" 
               : "bg-gradient-to-tr from-blue-600 to-blue-400"
           )}>
-            <div className="p-[2px] bg-slate-950 rounded-full">
+            <div className="p-[2px] bg-background dark:bg-slate-950 rounded-full">
               <Avatar className="h-16 w-16 border-2 border-transparent">
                 {story.photoURL ? (
                   <AvatarImage src={story.photoURL} className="object-cover" />
@@ -78,12 +78,12 @@ export function Stories({ stories, onAddStory, onViewStory, userProfile }: Stori
               </Avatar>
             </div>
             {story.isTrending && (
-              <div className="absolute -bottom-1 -right-1 bg-blue-500 text-[8px] font-bold text-white px-1.5 py-0.5 rounded-full border border-slate-950">
+              <div className="absolute -bottom-1 -right-1 bg-blue-500 text-[8px] font-bold text-white px-1.5 py-0.5 rounded-full border border-background dark:border-slate-950">
                 HOT
               </div>
             )}
           </div>
-          <span className="text-[10px] text-blue-100/70 font-medium max-w-[64px] truncate">
+          <span className="text-[10px] text-muted-foreground font-medium max-w-[64px] truncate">
             {story.name.split(' ')[0]}
           </span>
         </motion.div>

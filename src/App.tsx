@@ -779,8 +779,17 @@ export default function App() {
     return Array.from(locs).sort();
   }, [posts]);
 
+  // Dark Mode Effect
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   return (
-    <div className={`min-h-screen transition-colors duration-500 ${isDarkMode ? "dark" : ""}`}>
+    <div className="min-h-screen transition-colors duration-500">
       <Navbar 
         user={user} 
         onLogin={handleLogin} 
