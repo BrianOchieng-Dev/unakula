@@ -658,7 +658,9 @@ export default function App() {
         }
       }
 
-      const videoURL = await generateMealVideo(mealCombo);
+      const post = posts.find(p => p.id === postId);
+      const context = post ? `${post.mealCombo} at ${post.location}. ${post.description || ""}` : mealCombo;
+      const videoURL = await generateMealVideo(context);
       await setDoc(doc(db, "posts", postId), { videoURL }, { merge: true });
       toast.success("AI Video generated successfully!");
     } catch (error: any) {
